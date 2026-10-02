@@ -67,7 +67,11 @@ export default class ModuleInstance extends InstanceBase {
 			scriptsRef,
 			(snap) => {
 				const v = snap.val() || {}
-				this.library = Object.keys(v).map((k) => ({ id: k, name: v[k].name || 'Untitled' }))
+				// same ordering rule as Confidence Monitor: manual `order` first, never-ordered reads after, by creation time
+				const key = (k) => (typeof v[k].order === 'number' ? v[k].order : v[k].ts || 0)
+				this.library = Object.keys(v)
+					.sort((a, b) => key(a) - key(b))
+					.map((k) => ({ id: k, name: v[k].name || 'Untitled' }))
 				this.setVariableValues({ read_count: this.library.length })
 				this.updateActions()
 				this.updateFeedbacks()
