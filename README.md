@@ -11,13 +11,13 @@ unauthenticated — same access model the app itself relies on). No server of it
 - **Action: Trigger read (pick from library)** — dropdown of read names, live-updated as the
   Script Library changes in Confidence Monitor.
 - **Action: Trigger read (type exact name)** — a text-entry fallback, matched case-insensitively.
-- **Action: Show/hide an overlay element** — teleprompter, producer note, timer, or clock.
-- **Action: Toggle an overlay element** — same four elements, flips whatever it's currently set to
+- **Action: Show/hide an overlay element** — teleprompter, producer note, timer, clock, or the whole talent display (hiding it shows the test pattern).
+- **Action: Toggle an overlay element** — same five elements, flips whatever it's currently set to
   instead of setting an explicit state.
 - **Action: Timer start/pause/reset**.
 - **Feedback: Read is LIVE** — make a button turn a color while its read is the one on the prompter.
 - **Feedback: Overlay element is shown** — make a button turn a color while the selected element
-  (teleprompter/producer note/timer/clock) is actually visible on the monitor, regardless of which
+  (teleprompter/producer note/timer/clock/talent display) is actually visible on the monitor, regardless of which
   button (or Confidence Monitor's own UI) last changed it.
 - **Variables:** `live_read_name`, `read_count`.
 - **Presets** — ready-made buttons for every read currently in the library (colored while live),
