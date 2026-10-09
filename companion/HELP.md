@@ -1,9 +1,9 @@
-## Jomboy Confidence Monitor
+## Jomboy Mound Visit
 
 Triggers reads in the teleprompter's Script Library from Companion, and reflects which read is
 currently live back onto your buttons.
 
-**Config:** set Topic to match the Topic field in Confidence Monitor's Teleprompter card
+**Config:** set Topic to match the Topic field in Mound Visit's Teleprompter card
 (`adread` by default). Both must match or nothing will line up.
 
 **Actions**

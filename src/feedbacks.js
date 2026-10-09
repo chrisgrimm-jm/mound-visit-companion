@@ -28,7 +28,7 @@ export default function UpdateFeedbacks(self) {
 		element_is_shown: {
 			type: 'boolean',
 			name: 'Overlay element is shown',
-			description: 'True when the selected element is currently visible on the confidence monitor',
+			description: 'True when the selected element is currently visible on the Mound Visit talent monitor',
 			defaultStyle: { bgcolor: 0x00aa00, color: 0xffffff },
 			options: [
 				{

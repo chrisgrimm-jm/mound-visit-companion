@@ -1,4 +1,4 @@
-// Same shared Firebase project the Confidence Monitor teleprompter uses (open/unauthenticated
+// Same shared Firebase project the Mound Visit teleprompter uses (open/unauthenticated
 // read+write, same as every browser client already talking to it — no extra credentials here).
 import { initializeApp, getApps, getApp } from '@firebase/app'
 import { getDatabase, ref } from '@firebase/database'
@@ -18,7 +18,7 @@ export function getDb() {
 	return getDatabase(app)
 }
 
-// matches ppKey() in confidence-monitor/index.html — keep in sync if that ever changes
+// matches ppKey() in mound-visit/index.html — keep in sync if that ever changes
 export function ppKey(topic) {
 	return String(topic || '').trim().replace(/[.#$[\]/\s]+/g, '-') || 'adread'
 }

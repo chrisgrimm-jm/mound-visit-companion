@@ -52,7 +52,7 @@ export default class ModuleInstance extends InstanceBase {
 			{
 				type: 'textinput',
 				id: 'topic',
-				label: "Topic (must match the Topic field in Confidence Monitor's Teleprompter card)",
+				label: "Topic (must match the Topic field in Mound Visit's Teleprompter card)",
 				width: 8,
 				default: 'adread',
 			},
@@ -67,7 +67,7 @@ export default class ModuleInstance extends InstanceBase {
 			scriptsRef,
 			(snap) => {
 				const v = snap.val() || {}
-				// same ordering rule as Confidence Monitor: manual `order` first, never-ordered reads after, by creation time
+				// same ordering rule as Mound Visit: manual `order` first, never-ordered reads after, by creation time
 				const key = (k) => (typeof v[k].order === 'number' ? v[k].order : v[k].ts || 0)
 				this.library = Object.keys(v)
 					.sort((a, b) => key(a) - key(b))

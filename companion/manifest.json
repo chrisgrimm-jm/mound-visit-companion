@@ -4,11 +4,11 @@
 	"name": "jomboy-confidence-monitor",
 	"type": "connection",
 	"shortname": "confmon",
-	"description": "Trigger and monitor the Jomboy Confidence Monitor teleprompter's script library",
-	"version": "0.4.0",
+	"description": "Trigger and monitor the Jomboy Media Mound Visit teleprompter's script library",
+	"version": "0.4.1",
 	"license": "MIT",
-	"repository": "git+https://github.com/chrisgrimm-jm/confidence-monitor-companion.git",
-	"bugs": "https://github.com/chrisgrimm-jm/confidence-monitor-companion/issues",
+	"repository": "git+https://github.com/chrisgrimm-jm/mound-visit-companion.git",
+	"bugs": "https://github.com/chrisgrimm-jm/mound-visit-companion/issues",
 	"maintainers": [
 		{
 			"name": "Chris Grimm",
@@ -23,6 +23,6 @@
 		"entrypoint": "../src/main.js"
 	},
 	"manufacturer": "Jomboy Media",
-	"products": ["Confidence Monitor"],
+	"products": ["Mound Visit"],
 	"keywords": ["teleprompter", "prompter", "firebase"]
 }

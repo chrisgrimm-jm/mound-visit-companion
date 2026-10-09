@@ -1,7 +1,7 @@
 import { set, push, serverTimestamp } from '@firebase/database'
 import { promptRef } from './firebase.js'
 
-// element id (used in action/feedback options + preset ids) -> Confidence Monitor's state key
+// element id (used in action/feedback options + preset ids) -> Mound Visit's state key
 export const SHOW_ELEMENTS = [
 	{ id: 'prompter', label: 'Teleprompter', key: 'promptShow' },
 	{ id: 'producer', label: 'Producer note', key: 'prodShow' },
@@ -15,13 +15,13 @@ export default function UpdateActions(self) {
 		? self.library.map((s) => ({ id: s.name, label: s.name }))
 		: [{ id: '', label: '(script library not loaded yet)' }]
 
-	// n must be a server timestamp, not a fixed value — Confidence Monitor only reacts when it
+	// n must be a server timestamp, not a fixed value — Mound Visit only reacts when it
 	// strictly increases, so pressing the same button twice in a row still fires the second time.
 	async function triggerByName(name) {
 		if (!name) return
 		await set(promptRef(self.config.topic, 'trigger'), { name, n: serverTimestamp() })
 	}
-	// show/hide/timer commands go through a real queue (push a new child, Confidence Monitor
+	// show/hide/timer commands go through a real queue (push a new child, Mound Visit
 	// applies and removes each one) rather than one shared value -- two commands for different
 	// elements landing close together must both land, not have the later one silently win.
 	async function setVisible(elementId, on) {
