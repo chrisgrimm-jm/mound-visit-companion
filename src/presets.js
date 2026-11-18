@@ -54,6 +54,36 @@ export default function UpdatePresetDefinitions(self) {
 		controlIds.push(`timer_${op}`)
 	}
 
+	for (const [dir, label] of [
+		['-1', 'Back'],
+		['1', 'Fwd'],
+	]) {
+		presets[`nudge_${label}`] = {
+			type: 'simple',
+			name: `Prompter ${label}`,
+			style: { text: `PROMPTER\\n${label}`, size: 'auto', color: 0xffffff, bgcolor: 0x000000 },
+			steps: [{ down: [{ actionId: 'prompter_nudge', options: { dir } }], up: [] }],
+			feedbacks: [],
+		}
+		controlIds.push(`nudge_${label}`)
+	}
+	// for a dial (Stream Deck + encoder): turn left = Back, turn right = Fwd
+	presets.nudge_dial = {
+		type: 'simple',
+		name: 'Prompter dial (turn = Back/Fwd)',
+		style: { text: 'PROMPTER\\n◂ ▸', size: 'auto', color: 0xffffff, bgcolor: 0x000000 },
+		steps: [
+			{
+				down: [],
+				up: [],
+				rotate_left: [{ actionId: 'prompter_nudge', options: { dir: '-1' } }],
+				rotate_right: [{ actionId: 'prompter_nudge', options: { dir: '1' } }],
+			},
+		],
+		feedbacks: [],
+	}
+	controlIds.push('nudge_dial')
+
 	for (const s of self.library) {
 		presets[`read_${s.id}`] = {
 			type: 'simple',
@@ -73,7 +103,7 @@ export default function UpdatePresetDefinitions(self) {
 
 	const structure = [
 		{ id: 'reads', name: 'Reads', definitions: readIds },
-		{ id: 'controls', name: 'Show/hide & timer', definitions: controlIds },
+		{ id: 'controls', name: 'Show/hide, timer & prompter', definitions: controlIds },
 	]
 
 	self.setPresetDefinitions(structure, presets)

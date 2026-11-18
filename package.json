@@ -1,6 +1,6 @@
 {
 	"name": "jomboy-mound-visit",
-	"version": "0.4.2",
+	"version": "0.5.0",
 	"type": "module",
 	"main": "src/main.js",
 	"license": "MIT",

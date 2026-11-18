@@ -15,6 +15,7 @@ unauthenticated — same access model the app itself relies on). No server of it
 - **Action: Toggle an overlay element** — same five elements, flips whatever it's currently set to
   instead of setting an explicit state.
 - **Action: Timer start/pause/reset**.
+- **Action: Teleprompter Back/Fwd** — same as the Back/Fwd buttons on the Control page. Presets: Prompter Back, Prompter Fwd, and a Prompter dial (turn left = Back, right = Fwd) for controllers with dials like the Stream Deck +.
 - **Feedback: Read is LIVE** — make a button turn a color while its read is the one on the prompter.
 - **Feedback: Overlay element is shown** — make a button turn a color while the selected element
   (teleprompter/producer note/timer/clock/talent display) is actually visible on the monitor, regardless of which
@@ -25,7 +26,7 @@ unauthenticated — same access model the app itself relies on). No server of it
   transport actions. Drag them onto a button and
   they work as-is; the read presets update automatically as the Script Library changes.
 
-Show/hide and timer actions need Mound Visit's Control page open in a browser tab — it's
+Show/hide, timer and Back/Fwd actions need Mound Visit's Control page open in a browser tab — it's
 the one listening on Firebase and applying the change, the same as it does for triggering a read.
 
 ## Install as a developer module (not published to the module store)

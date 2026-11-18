@@ -37,6 +37,9 @@ export default function UpdateActions(self) {
 	async function timerOp(op) {
 		await push(promptRef(self.config.topic, 'uiq'), { t: 'timer', op })
 	}
+	async function nudge(dir) {
+		await push(promptRef(self.config.topic, 'uiq'), { t: 'nudge', dir })
+	}
 
 	self.setActionDefinitions({
 		trigger_read: {
@@ -116,6 +119,22 @@ export default function UpdateActions(self) {
 				},
 			],
 			callback: async (event) => timerOp(event.options.op),
+		},
+		prompter_nudge: {
+			name: 'Teleprompter Back/Fwd (manual advance)',
+			options: [
+				{
+					id: 'dir',
+					type: 'dropdown',
+					label: 'Direction',
+					choices: [
+						{ id: '1', label: 'Fwd' },
+						{ id: '-1', label: 'Back' },
+					],
+					default: '1',
+				},
+			],
+			callback: async (event) => nudge(Number(event.options.dir)),
 		},
 	})
 }
