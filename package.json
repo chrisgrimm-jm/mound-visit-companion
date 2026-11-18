@@ -1,6 +1,6 @@
 {
-	"name": "jomboy-confidence-monitor",
-	"version": "0.4.1",
+	"name": "jomboy-mound-visit",
+	"version": "0.4.2",
 	"type": "module",
 	"main": "src/main.js",
 	"license": "MIT",
