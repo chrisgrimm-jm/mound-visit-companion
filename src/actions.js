@@ -19,7 +19,7 @@ export default function UpdateActions(self) {
 	// strictly increases, so pressing the same button twice in a row still fires the second time.
 	async function triggerByName(name) {
 		if (!name) return
-		await set(promptRef(self.config.topic, 'trigger'), { name, n: serverTimestamp() })
+		if (self.topic) await set(promptRef(self.topic, 'trigger'), { name, n: serverTimestamp() })
 	}
 	// show/hide/timer commands go through a real queue (push a new child, Mound Visit
 	// applies and removes each one) rather than one shared value -- two commands for different
@@ -27,18 +27,18 @@ export default function UpdateActions(self) {
 	async function setVisible(elementId, on) {
 		const el = SHOW_ELEMENTS.find((e) => e.id === elementId)
 		if (!el) return
-		await push(promptRef(self.config.topic, 'uiq'), { t: 'show', key: el.key, on })
+		if (self.topic) await push(promptRef(self.topic, 'uiq'), { t: 'show', key: el.key, on })
 	}
 	async function toggleVisible(elementId) {
 		const el = SHOW_ELEMENTS.find((e) => e.id === elementId)
 		if (!el) return
-		await push(promptRef(self.config.topic, 'uiq'), { t: 'toggle', key: el.key })
+		if (self.topic) await push(promptRef(self.topic, 'uiq'), { t: 'toggle', key: el.key })
 	}
 	async function timerOp(op) {
-		await push(promptRef(self.config.topic, 'uiq'), { t: 'timer', op })
+		if (self.topic) await push(promptRef(self.topic, 'uiq'), { t: 'timer', op })
 	}
 	async function nudge(dir) {
-		await push(promptRef(self.config.topic, 'uiq'), { t: 'nudge', dir })
+		if (self.topic) await push(promptRef(self.topic, 'uiq'), { t: 'nudge', dir })
 	}
 
 	self.setActionDefinitions({

@@ -1,6 +1,7 @@
 import { InstanceBase, InstanceStatus } from '@companion-module/base'
 import { onValue } from '@firebase/database'
-import { promptRef } from './firebase.js'
+import os from 'node:os'
+import { promptRef, hostTopicRef } from './firebase.js'
 import { UpgradeScripts as upgradeScripts } from './upgrades.js'
 import UpdateActions from './actions.js'
 import UpdateFeedbacks from './feedbacks.js'
@@ -21,30 +22,57 @@ export default class ModuleInstance extends InstanceBase {
 		this.scriptsUnsub = null
 		this.contentUnsub = null
 		this.uiStateUnsub = null
-
-		this.updateStatus(InstanceStatus.Connecting)
-		this.updateActions()
-		this.updateFeedbacks()
+		this.hostUnsub = null
 		this.updateVariableDefinitions()
-		this.updatePresetDefinitions()
-		this.subscribe()
+		this.start()
 	}
 
 	async destroy() {
 		this.unsubscribe()
+		if (this.hostUnsub) this.hostUnsub()
 	}
 
 	async configUpdated(config) {
-		this.unsubscribe()
 		this.config = config
+		this.start()
+	}
+
+	// Topic field filled in = use it. Blank (or "auto") = follow whatever topic Mound Visit on this same PC is using,
+	// which its Control page publishes under this computer's host name (needs the Mound Visit desktop app).
+	start() {
+		this.unsubscribe()
+		if (this.hostUnsub) this.hostUnsub()
+		this.hostUnsub = null
+		const typed = String(this.config.topic || '').trim()
+		if (typed && typed.toLowerCase() !== 'auto') return this.useTopic(typed)
+		this.topic = ''
+		this.useTopic('')
+		const host = os.hostname()
+		this.hostUnsub = onValue(hostTopicRef(host), (snap) => {
+			const t = (snap.val() || {}).topic
+			if (!t) {
+				this.unsubscribe()
+				this.topic = ''
+				this.setVariableValues({ topic: '' })
+				this.updateStatus(InstanceStatus.BadConfig, `Auto: no Mound Visit seen on ${host} yet. Open it here, or type a topic.`)
+				return
+			}
+			if (t !== this.topic) this.useTopic(t)
+		})
+	}
+
+	useTopic(topic) {
+		this.unsubscribe()
+		this.topic = topic
 		this.library = []
 		this.liveName = ''
 		this.uiState = {}
+		this.setVariableValues({ topic })
 		this.updateStatus(InstanceStatus.Connecting)
 		this.updateActions()
 		this.updateFeedbacks()
 		this.updatePresetDefinitions()
-		this.subscribe()
+		if (topic) this.subscribe()
 	}
 
 	getConfigFields() {
@@ -52,16 +80,16 @@ export default class ModuleInstance extends InstanceBase {
 			{
 				type: 'textinput',
 				id: 'topic',
-				label: "Topic (must match the Topic field in Mound Visit's Teleprompter card)",
+				label: "Topic — leave blank to follow Mound Visit on this PC automatically (or type one to match its Teleprompter card)",
 				width: 8,
-				default: 'adread',
+				default: '',
 			},
 		]
 	}
 
 	subscribe() {
-		const scriptsRef = promptRef(this.config.topic, 'scripts')
-		const contentRef = promptRef(this.config.topic, 'content')
+		const scriptsRef = promptRef(this.topic, 'scripts')
+		const contentRef = promptRef(this.topic, 'content')
 
 		this.scriptsUnsub = onValue(
 			scriptsRef,
@@ -76,7 +104,7 @@ export default class ModuleInstance extends InstanceBase {
 				this.updateActions()
 				this.updateFeedbacks()
 				this.updatePresetDefinitions()
-				this.updateStatus(InstanceStatus.Ok)
+				this.updateStatus(InstanceStatus.Ok, `Topic: ${this.topic}`)
 			},
 			(err) => this.updateStatus(InstanceStatus.ConnectionFailure, err.message),
 		)
@@ -88,7 +116,7 @@ export default class ModuleInstance extends InstanceBase {
 			this.checkFeedbacks('read_is_live')
 		})
 
-		const uiStateRef = promptRef(this.config.topic, 'uistate')
+		const uiStateRef = promptRef(this.topic, 'uistate')
 		this.uiStateUnsub = onValue(uiStateRef, (snap) => {
 			this.uiState = snap.val() || {}
 			this.checkFeedbacks('element_is_shown')

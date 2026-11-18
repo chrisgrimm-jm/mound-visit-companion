@@ -38,8 +38,10 @@ the one listening on Firebase and applying the change, the same as it does for t
 4. Enable **Enable Developer Modules**, then reopen the Companion GUI.
 5. Add a new connection — it should now show up under **Jomboy Media → Mound Visit** (its internal id stays `jomboy-confidence-monitor` so connections made before the rename keep working) (as a **dev** module if a
    store version of the same id ever exists too).
-6. In the connection's config, set **Topic** to match the Topic field on the Teleprompter card in
-   Mound Visit's Control page (`adread` by default — they have to match exactly).
+6. In the connection's config, leave **Topic** blank: the module then follows whatever topic the
+   Mound Visit desktop app on this same PC is using (its Control page records it under the PC's
+   host name). On a different PC, or with the browser version, type the topic instead — it must
+   match the Topic field on the Teleprompter card exactly (`adread` by default).
 
 Companion auto-restarts the connection whenever you save a file in this folder, so you can edit
 and test live.

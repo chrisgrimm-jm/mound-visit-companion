@@ -3,8 +3,9 @@
 Triggers reads in the teleprompter's Script Library from Companion, and reflects which read is
 currently live back onto your buttons.
 
-**Config:** set Topic to match the Topic field in Mound Visit's Teleprompter card
-(`adread` by default). Both must match or nothing will line up.
+**Config:** leave Topic blank to follow the Mound Visit desktop app on this same PC automatically.
+Otherwise type the Topic from Mound Visit's Teleprompter card (`adread` by default) — they must match.
+The `topic` variable shows which one is in use.
 
 **Actions**
 - *Trigger read (pick from library)* — dropdown of read names, refreshed live as the library changes.

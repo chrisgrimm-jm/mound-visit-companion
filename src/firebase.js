@@ -23,6 +23,11 @@ export function ppKey(topic) {
 	return String(topic || '').trim().replace(/[.#$[\]/\s]+/g, '-') || 'adread'
 }
 
+// which topic this computer's Mound Visit is on, written by its Control page (desktop app only) under its host name
+export function hostTopicRef(hostname) {
+	return ref(getDb(), 'mv_hosts/' + ppKey(String(hostname).toLowerCase()))
+}
+
 export function promptRef(topic, ...path) {
 	return ref(getDb(), ['prompter', ppKey(topic), ...path].join('/'))
 }
